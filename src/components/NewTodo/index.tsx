@@ -1,4 +1,5 @@
 import { ChangeEvent, FormEvent, useState } from "react";
+import { Button } from "../UI/Button";
 import "./index.css";
 
 const NewTodo: React.FC<{ onAdd: (text: string) => void }> = ({ onAdd }) => {
@@ -33,7 +34,7 @@ const NewTodo: React.FC<{ onAdd: (text: string) => void }> = ({ onAdd }) => {
         value={text}
         onChange={onChangeHandler}
       />
-      <button>Add</button>
+      <Button>Add</Button>
       {isTouched && !isValid && (
         <p>Please Enter Todo , it has to be longer than 3 letters</p>
       )}

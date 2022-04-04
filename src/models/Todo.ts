@@ -3,6 +3,6 @@ export class Todo {
   title: string;
   constructor(t: string) {
     this.title = t;
-    this.id = new Date().toISOString();
+    this.id = Date.now().toString();
   }
 }

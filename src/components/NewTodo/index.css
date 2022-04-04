@@ -24,7 +24,7 @@
   margin-bottom: 0.5rem;
 }
 
-.form button {
+/* .form button {
   font: inherit;
   background-color: #eb0250;
   border: 1px solid #ebb002;
@@ -38,7 +38,7 @@
 .form button:active {
   background-color: #eb0250;
   border-color: #ebc002;
-}
+} */
 .form p {
   color: #eb0250;
 }
