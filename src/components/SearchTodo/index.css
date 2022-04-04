@@ -1,0 +1,7 @@
+.search {
+  width: 20%;
+}
+.search input {
+  border: 1px solid black;
+  border-radius: 5px;
+}

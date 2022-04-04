@@ -1,5 +1,6 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { Button } from "../UI/Button";
+import { Input } from "../UI/Input";
 import "./index.css";
 
 const NewTodo: React.FC<{ onAdd: (text: string) => void }> = ({ onAdd }) => {
@@ -26,7 +27,7 @@ const NewTodo: React.FC<{ onAdd: (text: string) => void }> = ({ onAdd }) => {
   return (
     <form onSubmit={submitHandler} className="form">
       <label htmlFor="text">todo:</label>
-      <input
+      <Input
         type="text"
         id="text"
         placeholder="Enter your todo"

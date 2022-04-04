@@ -5,7 +5,7 @@ import Todos from "./components/Todos";
 import { Todo } from "./models/Todo";
 
 function App() {
-  const todosList = [new Todo("Learn JS and TapeScript")];
+  const todosList = [new Todo("Learn JS and TypeScript", false)];
   const [todos, setTodos] = useState(todosList);
   const [search] = useState("");
   const [filteredTodos, setFilteredTodos] = useState(todos);
@@ -20,7 +20,7 @@ function App() {
     }
   }, [search, todos]);
   const onAddHandler = (text: string) => {
-    setTodos((prev) => [...prev, new Todo(text)]);
+    setTodos((prev) => [...prev, new Todo(text, false)]);
   };
 
   const onDelete = (todoId: string) => {
@@ -34,12 +34,28 @@ function App() {
       )
     );
   };
+  const onCheckBoxChangeHandler = (newTodo: Todo) => {
+    setTodos(
+      todos.map((todo) => {
+        if (todo.id === newTodo.id) {
+          return newTodo;
+        } else {
+          return todo;
+        }
+      })
+    );
+  };
 
+  todos.sort((a, b) => +a.isChecked - +b.isChecked);
   return (
     <div className="App">
       <SearchTodo onFilter={onFilterHandler} />
       <NewTodo onAdd={onAddHandler} />
-      <Todos todos={filteredTodos} onDelete={onDelete} />
+      <Todos
+        todos={filteredTodos}
+        onDelete={onDelete}
+        onChange={onCheckBoxChangeHandler}
+      />
     </div>
   );
 }

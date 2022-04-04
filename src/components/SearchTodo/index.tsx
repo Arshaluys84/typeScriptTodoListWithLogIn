@@ -1,4 +1,6 @@
 import { ChangeEvent, FormEvent, useState } from "react";
+import { Button } from "../UI/Button";
+import { Input } from "../UI/Input";
 import "./index.css";
 
 export const SearchTodo: React.FC<{
@@ -20,9 +22,9 @@ export const SearchTodo: React.FC<{
   };
 
   return (
-    <form onSubmit={submitHandler} className="form">
+    <form onSubmit={submitHandler} className="form search">
       <label htmlFor="search">search:</label>
-      <input
+      <Input
         type="text"
         id="search"
         placeholder="enter for search"
@@ -30,7 +32,7 @@ export const SearchTodo: React.FC<{
         value={search}
         onChange={onChangeHandler}
       />
-      <button>Search</button>
+      <Button>Search</Button>
     </form>
   );
 };
