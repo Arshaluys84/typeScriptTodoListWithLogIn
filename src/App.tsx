@@ -1,26 +1,44 @@
 import { useEffect, useState } from "react";
-import NewTodo from "./components/NewTodo";
+import { Login } from "./components/Login";
+import { NewTodo } from "./components/NewTodo";
 import { SearchTodo } from "./components/SearchTodo";
-import Todos from "./components/Todos";
+import { Todos } from "./components/Todos";
+import { todosList } from "./Constants";
 import { Todo } from "./models/Todo";
 
 function App() {
-  const todosList = [new Todo("Learn JS and TypeScript", false)];
-  const [todos, setTodos] = useState(todosList);
+  const todosStorage = localStorage.getItem("todos");
+  const todosStorageArray = JSON.parse(todosStorage || "[]") as Todo[];
+  console.log(todosStorageArray, "");
+  if (todosStorageArray.length === 0) {
+    localStorage.setItem("todos", JSON.stringify(todosList));
+  }
+
+  const [todos, setTodos] = useState(todosStorageArray);
   const [search] = useState("");
   const [filteredTodos, setFilteredTodos] = useState(todos);
-  useEffect(() => {
-    localStorage.setItem("todo", JSON.stringify(todos));
-    setFilteredTodos(JSON.parse(localStorage.getItem("todo") || ""));
-  }, [todos]);
+  const [isLogin, setIsLogin] = useState(false);
 
+  useEffect(() => {
+    if (isLogin === false) {
+      setIsLogin(JSON.parse(localStorage.getItem("login") || "false"));
+    }
+  }, [isLogin]);
   useEffect(() => {
     if (search.length === 0) {
       setFilteredTodos(todos);
     }
   }, [search, todos]);
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+    console.log(todos);
+  }, [todos]);
+  // localStorage.setItem("todos", JSON.stringify(todos));
   const onAddHandler = (text: string) => {
     setTodos((prev) => [...prev, new Todo(text, false)]);
+    console.log(todos);
+
+    //  localStorage.setItem("todos", JSON.stringify(todos));
   };
 
   const onDelete = (todoId: string) => {
@@ -47,15 +65,28 @@ function App() {
   };
 
   todos.sort((a, b) => +a.isChecked - +b.isChecked);
+  // useEffect(() => {
+  //   localStorage.setItem("todos", JSON.stringify(todos));
+  // }, [todos]);
+  // console.log(todos);
+
+  const onLoginHandler = (login: boolean) => {
+    setIsLogin(login);
+  };
   return (
     <div className="App">
-      <SearchTodo onFilter={onFilterHandler} />
-      <NewTodo onAdd={onAddHandler} />
-      <Todos
-        todos={filteredTodos}
-        onDelete={onDelete}
-        onChange={onCheckBoxChangeHandler}
-      />
+      {!isLogin && <Login onLogin={onLoginHandler} />}
+      {isLogin && (
+        <div>
+          <SearchTodo onFilter={onFilterHandler} />
+          <NewTodo onAdd={onAddHandler} />
+          <Todos
+            todos={filteredTodos}
+            onDelete={onDelete}
+            onChange={onCheckBoxChangeHandler}
+          />
+        </div>
+      )}
     </div>
   );
 }

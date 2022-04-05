@@ -1,7 +1,7 @@
 import { Todo } from "../../models/Todo";
 import "./index.css";
 
-const TodoItem: React.FC<{
+export const TodoItem: React.FC<{
   todo: Todo;
   onDelete: (id: string) => void;
   onChange: (todo: Todo) => void;
@@ -21,5 +21,3 @@ const TodoItem: React.FC<{
     </div>
   );
 };
-
-export default TodoItem;

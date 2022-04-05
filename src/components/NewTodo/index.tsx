@@ -1,25 +1,27 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { Button } from "../UI/Button";
 import { Input } from "../UI/Input";
+
 import "./index.css";
 
-const NewTodo: React.FC<{ onAdd: (text: string) => void }> = ({ onAdd }) => {
+export const NewTodo: React.FC<{ onAdd: (text: string) => void }> = ({
+  onAdd,
+}) => {
   const [text, setText] = useState<string>("");
   const [isValid, setIsValid] = useState(false);
   const [isTouched, setIsTouched] = useState(false);
+
   const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setText(event.target.value);
     setIsValid(true);
   };
   const submitHandler = (event: FormEvent) => {
     event.preventDefault();
-
     if (text.trim().length <= 3) {
       setIsValid(false);
       setIsTouched(true);
       return;
     }
-
     onAdd(text);
     setText("");
   };
@@ -42,5 +44,3 @@ const NewTodo: React.FC<{ onAdd: (text: string) => void }> = ({ onAdd }) => {
     </form>
   );
 };
-
-export default NewTodo;
