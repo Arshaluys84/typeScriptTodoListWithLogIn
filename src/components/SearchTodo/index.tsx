@@ -28,7 +28,7 @@ export const SearchTodo: React.FC<{
       <Input
         type="text"
         id="search"
-        placeholder="enter for search"
+        placeholder="Search"
         name="text"
         value={search}
         onChange={onChangeHandler}

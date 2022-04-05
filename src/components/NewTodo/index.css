@@ -1,6 +1,8 @@
 .form {
-  width: 40rem;
-  margin: 2rem auto;
+  width: 83%;
+  margin: 2rem 5%;
+  display: flex;
+  align-items: baseline;
 }
 
 .form label {

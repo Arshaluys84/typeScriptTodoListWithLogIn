@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import { Login } from "./components/Login";
 import { NewTodo } from "./components/NewTodo";
 import { SearchTodo } from "./components/SearchTodo";
+import { SortTodo } from "./components/SortTodo";
 import { Todos } from "./components/Todos";
 import { todosList } from "./Constants";
-import { Todo } from "./models/Todo";
+import { SortTodoString, Todo } from "./models/Todo";
 
 function App() {
   const todosStorage = localStorage.getItem("todos");
   const todosStorageArray = JSON.parse(todosStorage || "[]") as Todo[];
-  console.log(todosStorageArray, "");
   if (todosStorageArray.length === 0) {
     localStorage.setItem("todos", JSON.stringify(todosList));
   }
@@ -31,14 +31,11 @@ function App() {
   }, [search, todos]);
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
-    console.log(todos);
   }, [todos]);
-  // localStorage.setItem("todos", JSON.stringify(todos));
+
   const onAddHandler = (text: string) => {
     setTodos((prev) => [...prev, new Todo(text, false)]);
     console.log(todos);
-
-    //  localStorage.setItem("todos", JSON.stringify(todos));
   };
 
   const onDelete = (todoId: string) => {
@@ -64,15 +61,23 @@ function App() {
     );
   };
 
-  todos.sort((a, b) => +a.isChecked - +b.isChecked);
-  // useEffect(() => {
-  //   localStorage.setItem("todos", JSON.stringify(todos));
-  // }, [todos]);
-  // console.log(todos);
-
   const onLoginHandler = (login: boolean) => {
     setIsLogin(login);
   };
+
+  const onSortHandler = (sorter: keyof SortTodoString) => {
+    const todoStorage = JSON.parse(
+      localStorage.getItem("todos") || "[]"
+    ) as Todo[];
+    setTodos(
+      todoStorage.sort((a: SortTodoString, b: SortTodoString) =>
+        a[sorter].localeCompare(b[sorter])
+      )
+    );
+
+    localStorage.setItem("todos", JSON.stringify(todos));
+  };
+  todos.sort((a, b) => +a.isChecked - +b.isChecked);
   return (
     <div className="App">
       {!isLogin && <Login onLogin={onLoginHandler} />}
@@ -80,6 +85,7 @@ function App() {
         <div>
           <SearchTodo onFilter={onFilterHandler} />
           <NewTodo onAdd={onAddHandler} />
+          <SortTodo onSorter={onSortHandler} />
           <Todos
             todos={filteredTodos}
             onDelete={onDelete}

@@ -8,3 +8,7 @@ export class Todo {
     this.id = Date.now().toString();
   }
 }
+export type SortTodoString = {
+  id: string;
+  title: string;
+};
