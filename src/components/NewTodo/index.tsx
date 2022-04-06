@@ -7,7 +7,7 @@ import "./index.css";
 export const NewTodo: React.FC<{ onAdd: (text: string) => void }> = ({
   onAdd,
 }) => {
-  const [text, setText] = useState<string>("");
+  const [text, setText] = useState("");
   const [isValid, setIsValid] = useState(false);
   const [isTouched, setIsTouched] = useState(false);
 

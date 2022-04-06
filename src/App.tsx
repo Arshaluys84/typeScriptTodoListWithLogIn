@@ -5,14 +5,15 @@ import { SearchTodo } from "./components/SearchTodo";
 import { SortTodo } from "./components/SortTodo";
 import { todosList } from "./Constants";
 import { SortTodoString, Todo } from "./models/Todo";
+import { TodoItem } from "./components/TodoItem";
 
 import { Pagination } from "react-pagination-bar";
 import "react-pagination-bar/dist/index.css";
-import { TodoItem } from "./components/TodoItem";
 
-function App() {
+const App: React.FC<{}> = () => {
   const todosStorage = localStorage.getItem("todos");
   const todosStorageArray = JSON.parse(todosStorage || "[]") as Todo[];
+
   if (todosStorageArray.length === 0) {
     localStorage.setItem("todos", JSON.stringify(todosList));
   }
@@ -30,21 +31,22 @@ function App() {
       setIsLogin(JSON.parse(localStorage.getItem("login") || "false"));
     }
   }, [isLogin]);
+
   useEffect(() => {
     if (search.length === 0) {
       setFilteredTodos(todos);
     }
   }, [search, todos]);
+
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
   }, [todos]);
 
   const onAddHandler = (text: string) => {
     setTodos((prev) => [...prev, new Todo(text, false)]);
-    console.log(todos);
   };
 
-  const onDelete = (todoId: string) => {
+  const onDeleteHandler = (todoId: string) => {
     setTodos((prev) => prev.filter((item) => item.id !== todoId));
   };
 
@@ -83,6 +85,7 @@ function App() {
 
     localStorage.setItem("todos", JSON.stringify(todos));
   };
+
   todos.sort((a, b) => +a.isChecked - +b.isChecked);
 
   return (
@@ -102,7 +105,7 @@ function App() {
               <TodoItem
                 key={post.id}
                 todo={post}
-                onDelete={onDelete}
+                onDelete={onDeleteHandler}
                 onChange={onCheckBoxChangeHandler}
               />
             ))}
@@ -117,6 +120,6 @@ function App() {
       )}
     </div>
   );
-}
+};
 
 export default App;

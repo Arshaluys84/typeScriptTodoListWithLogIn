@@ -8,8 +8,8 @@
 }
 .select select {
   width: 20%;
-  font: inherit;
   padding: 0.5rem 0;
   border-radius: 4px;
   cursor: pointer;
+  font: inherit;
 }

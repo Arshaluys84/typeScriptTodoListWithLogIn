@@ -7,7 +7,7 @@ import "./index.css";
 export const SearchTodo: React.FC<{
   onFilter: (search: string) => void;
 }> = ({ onFilter }) => {
-  const [search, setSearch] = useState<string>("");
+  const [search, setSearch] = useState("");
 
   const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value);

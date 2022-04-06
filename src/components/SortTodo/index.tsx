@@ -7,14 +7,13 @@ import "./index.css";
 export const SortTodo: React.FC<{
   onSorter: (sorter: keyof SortTodoString) => void;
 }> = ({ onSorter }) => {
-  const [sorter, setSorter] = useState<string>("id");
+  const [sorter, setSorter] = useState("id");
 
   const onChangeHandler = (event: ChangeEvent<HTMLSelectElement>) => {
     setSorter(event.target.value);
   };
   const submitHandler = (event: FormEvent) => {
     event.preventDefault();
-    console.log(sorter);
     onSorter(sorter as keyof SortTodoString);
   };
 
