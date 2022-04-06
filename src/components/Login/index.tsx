@@ -16,11 +16,13 @@ export const Login: React.FC<{ onLogin: (login: boolean) => void }> = ({
   };
   const submitHandler = (event: FormEvent) => {
     event.preventDefault();
+    if (loginData.mail.length < 5 || loginData.password.length < 5) {
+      return;
+    }
     localStorage.setItem("data", JSON.stringify(loginData));
     localStorage.setItem("login", JSON.stringify(true));
     onLogin(true);
     setLoginData({ mail: "", password: "" });
-   
   };
 
   return (
@@ -39,7 +41,7 @@ export const Login: React.FC<{ onLogin: (login: boolean) => void }> = ({
         <Input
           type="password"
           id="password"
-          placeholder="Enter your password"
+          placeholder="password more 5 symbols"
           name="password"
           value={loginData.password}
           onChange={onChangeHandler}

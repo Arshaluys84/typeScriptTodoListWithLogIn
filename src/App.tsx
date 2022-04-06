@@ -3,9 +3,12 @@ import { Login } from "./components/Login";
 import { NewTodo } from "./components/NewTodo";
 import { SearchTodo } from "./components/SearchTodo";
 import { SortTodo } from "./components/SortTodo";
-import { Todos } from "./components/Todos";
 import { todosList } from "./Constants";
 import { SortTodoString, Todo } from "./models/Todo";
+
+import { Pagination } from "react-pagination-bar";
+import "react-pagination-bar/dist/index.css";
+import { TodoItem } from "./components/TodoItem";
 
 function App() {
   const todosStorage = localStorage.getItem("todos");
@@ -18,6 +21,9 @@ function App() {
   const [search] = useState("");
   const [filteredTodos, setFilteredTodos] = useState(todos);
   const [isLogin, setIsLogin] = useState(false);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const pagePostsLimit = 4;
 
   useEffect(() => {
     if (isLogin === false) {
@@ -78,6 +84,7 @@ function App() {
     localStorage.setItem("todos", JSON.stringify(todos));
   };
   todos.sort((a, b) => +a.isChecked - +b.isChecked);
+
   return (
     <div className="App">
       {!isLogin && <Login onLogin={onLoginHandler} />}
@@ -86,10 +93,25 @@ function App() {
           <SearchTodo onFilter={onFilterHandler} />
           <NewTodo onAdd={onAddHandler} />
           <SortTodo onSorter={onSortHandler} />
-          <Todos
-            todos={filteredTodos}
-            onDelete={onDelete}
-            onChange={onCheckBoxChangeHandler}
+          {filteredTodos
+            .slice(
+              (currentPage - 1) * pagePostsLimit,
+              currentPage * pagePostsLimit
+            )
+            .map((post) => (
+              <TodoItem
+                key={post.id}
+                todo={post}
+                onDelete={onDelete}
+                onChange={onCheckBoxChangeHandler}
+              />
+            ))}
+          <Pagination
+            initialPage={currentPage}
+            itemsPerPage={pagePostsLimit}
+            onPageСhange={(pageNumber) => setCurrentPage(pageNumber)}
+            totalItems={todos.length}
+            pageNeighbours={2}
           />
         </div>
       )}
