@@ -85,7 +85,7 @@ const App: React.FC<{}> = () => {
 
     localStorage.setItem("todos", JSON.stringify(todos));
   };
-
+  
   todos.sort((a, b) => +a.isChecked - +b.isChecked);
 
   return (
